@@ -18,13 +18,12 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(
-  cors({
-    // origin: process.env.CLIENT_URL,
-    origin: "*",
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: 'http://localhost:5173', // Adjust the origin as needed
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'], // Allow all methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Adjust headers as needed
+  credentials: true, // Include if you want to send cookies or other credentials
+}));
 
 app.use(express.json());
 
