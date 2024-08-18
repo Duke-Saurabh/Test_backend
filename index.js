@@ -18,12 +18,26 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors({
-  origin: 'http://localhost:5173', // Adjust the origin as needed
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'], // Allow all methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Adjust headers as needed
-  credentials: true, // Include if you want to send cookies or other credentials
-}));
+// app.use(cors({
+//   origin: 'http://localhost:5173', // Adjust the origin as needed
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'], // Allow all methods
+//   allowedHeaders: ['Content-Type', 'Authorization'], // Adjust headers as needed
+//   credentials: true, // Include if you want to send cookies or other credentials
+// }));
+
+export default (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // Allow requests from your frontend
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); // Allow these HTTP methods
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow these headers
+  res.setHeader('Access-Control-Allow-Credentials', 'true'); // Allow credentials like cookies
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end(); // Handle preflight request
+  }
+
+  // Your API logic here, for example:
+  res.json({ message: 'Hello from the backend!' });
+};
 
 app.use(express.json());
 
